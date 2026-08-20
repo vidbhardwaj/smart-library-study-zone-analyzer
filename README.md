@@ -165,7 +165,7 @@ The exact scoring methodology will be finalized after sensor testing and analysi
 | Member        | Responsibility        |
 | ------------- | --------------------- |
 | Vid Bhardwaj  | IoT, ESP32 & Hardware |
-| Team Member 2 | Backend & Database    |
+| Skand Jha | Backend & Database |
 | Shubham Singh | Dashboard & Analytics |
 
 > Team responsibilities may be updated as development progresses.
