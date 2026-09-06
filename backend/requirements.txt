@@ -1,0 +1,2 @@
+# Assignee: Skand Jha (Backend & Database)
+# Add your Python dependencies here (e.g., Flask, FastAPI, psycopg2)
