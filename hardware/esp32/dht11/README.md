@@ -26,7 +26,7 @@ through a digital data pin.
 | DHT11 | ESP32 |
 |---|---|
 | VCC | 3.3V |
-| DATA | GPIO XX |
+| DATA | GPIO 15 |
 | GND | GND |
 
 ## Working
@@ -41,8 +41,8 @@ See `dht11.ino`.
 
 ## Expected Output
 
-Temperature: XX °C
-Humidity: XX %
+Temperature: 34 °C (as per temp)
+Humidity: 65 % (as per temp)
 
 ## Result
 
