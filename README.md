@@ -174,25 +174,6 @@ The exact scoring methodology will be finalized after sensor testing and analysi
 
 🚧 **Currently in development**
 
-### Development Roadmap
-
-* [ ] Finalize project requirements
-* [ ] Finalize sensors and components
-* [ ] Design system architecture
-* [ ] Build ESP32 sensor module
-* [ ] Test individual sensors
-* [ ] Implement sensor data collection
-* [ ] Establish ESP32-to-backend communication
-* [ ] Develop backend/API
-* [ ] Implement database
-* [ ] Develop analytics module
-* [ ] Implement Study Environment Score
-* [ ] Develop web dashboard
-* [ ] Integrate complete system
-* [ ] Test prototype
-* [ ] Analyze collected data
-* [ ] Finalize documentation
-
 ## 🔬 Development Approach
 
 The project will be developed incrementally.
