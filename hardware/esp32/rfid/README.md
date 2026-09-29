@@ -1,10 +1,9 @@
-# Practical 6 – RFID with ESP32
+# RFID with ESP32
 
 ## Student Details
 
 - **Name:** BHARDWAJ VID VIMALBHAI
 - **Enrollment No.:** 12402110501065
-- **Practical No.:** 6
 
 ## Aim
 
