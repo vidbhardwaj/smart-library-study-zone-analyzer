@@ -40,7 +40,7 @@ Card UID and Card Type on the Serial Monitor.
 ## Circuit Connections
 
 | RC522 | ESP32 |
-|---|---|
+|--- | ---|
 | SDA / SS | GPIO 5 |
 | SCK | GPIO 18 |
 | MOSI | GPIO 23 |
