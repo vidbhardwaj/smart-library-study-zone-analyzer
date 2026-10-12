@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Library Study Zone Analyzer | Live IoT Dashboard</title>
+  <meta name="description" content="Real-time IoT environmental monitoring and study zone scoring system powered by ESP32, FastAPI, and Antigravity self-healing architecture.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-background">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="top-nav" id="topNav">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+            <path d="M6 6h10"/>
+            <path d="M6 10h10"/>
+            <path d="M6 14h6"/>
+          </svg>
+          <span class="pulse-ring"></span>
+        </div>
+        <div>
+          <div class="brand-title">Smart Library</div>
+          <div class="brand-subtitle">Study Zone Analyzer • EIOT System</div>
+        </div>
+      </div>
+
+      <!-- Zone Selection Pills -->
+      <div class="zone-selector" id="zoneSelector">
+        <button class="zone-pill active" data-zone="1">
+          <span class="zone-indicator"></span> Zone 1: Quiet Study
+        </button>
+        <button class="zone-pill" data-zone="2">
+          <span class="zone-indicator"></span> Zone 2: Silent Room
+        </button>
+        <button class="zone-pill" data-zone="3">
+          <span class="zone-indicator"></span> Zone 3: Research Hub
+        </button>
+      </div>
+
+      <!-- System Status & Quick Actions -->
+      <div class="nav-actions">
+        <div class="status-badge" id="systemStatusBadge">
+          <span class="status-dot online"></span>
+          <span id="systemStatusText">Connecting...</span>
+        </div>
+        <button class="btn btn-secondary" id="openSimBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Simulator
+        </button>
+        <button class="btn btn-primary" id="refreshBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="refreshIcon">
+            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+          </svg>
+          Sync
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Grid -->
+    <main class="dashboard-content">
+      
+      <!-- HERO: Zone Score & Comfort Breakdown -->
+      <section class="hero-score-section card glass">
+        <div class="score-main">
+          <div class="gauge-wrapper">
+            <svg class="score-gauge" viewBox="0 0 160 160">
+              <circle class="gauge-bg" cx="80" cy="80" r="68"></circle>
+              <circle class="gauge-progress" id="scoreGaugeProgress" cx="80" cy="80" r="68"></circle>
+            </svg>
+            <div class="gauge-center-text">
+              <span class="score-number" id="overallScoreVal">--</span>
+              <span class="score-max">/ 100</span>
+              <span class="score-label">STUDY SCORE</span>
+            </div>
+          </div>
+
+          <div class="score-meta">
+            <div class="zone-header-wrap">
+              <span class="location-tag" id="zoneLocationTag">2nd Floor, Wing A</span>
+              <h1 class="zone-title" id="zoneTitle">Zone 1 - Main Quiet Study Hall</h1>
+            </div>
+            <div class="rating-badge-container">
+              <div class="rating-badge" id="ratingBadge">
+                <span class="rating-icon">✨</span>
+                <span id="ratingText">Calculating Environment...</span>
+              </div>
+              <span class="last-sync-time" id="lastSyncTime">Syncing...</span>
+            </div>
+            <p class="score-desc" id="scoreDescription">
+              Real-time multi-sensor telemetry analyzing thermal comfort, acoustics, lighting quality, and space occupancy.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sub-score Breakdown -->
+        <div class="score-breakdown">
+          <h3 class="breakdown-title">Environmental Comfort Indices</h3>
+          <div class="indices-grid">
+            
+            <div class="index-item">
+              <div class="index-header">
+                <span class="index-name">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                  Acoustic Comfort (35%)
+                </span>
+                <span class="index-val" id="acousticScoreVal">--%</span>
+              </div>
+              <div class="bar-track"><div class="bar-fill" id="acousticBar" style="width: 0%"></div></div>
+            </div>
+
+            <div class="index-item">
+              <div class="index-header">
+                <span class="index-name">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+                  Thermal Comfort (25%)
+                </span>
+                <span class="index-val" id="thermalScoreVal">--%</span>
+              </div>
+              <div class="bar-track"><div class="bar-fill" id="thermalBar" style="width: 0%"></div></div>
+            </div>
+
+            <div class="index-item">
+              <div class="index-header">
+                <span class="index-name">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                  Visual Comfort (25%)
+                </span>
+                <span class="index-val" id="visualScoreVal">--%</span>
+              </div>
+              <div class="bar-track"><div class="bar-fill" id="visualBar" style="width: 0%"></div></div>
+            </div>
+
+            <div class="index-item">
+              <div class="index-header">
+                <span class="index-name">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  Space & Capacity (15%)
+                </span>
+                <span class="index-val" id="occupancyScoreVal">--%</span>
+              </div>
+              <div class="bar-track"><div class="bar-fill" id="occupancyBar" style="width: 0%"></div></div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SENSOR TELEMETRY CARDS (5 Cards) -->
+      <section class="sensors-grid">
+        
+        <!-- Temperature Card -->
+        <div class="sensor-card card glass">
+          <div class="sensor-card-header">
+            <div class="sensor-icon temp-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+            </div>
+            <span class="sensor-name">Temperature</span>
+            <span class="sensor-chip" id="tempStatusChip">Normal</span>
+          </div>
+          <div class="sensor-value-group">
+            <span class="sensor-value" id="tempValue">--</span>
+            <span class="sensor-unit">°C</span>
+          </div>
+          <div class="sensor-subinfo">
+            <span>DHT11 Sensor • Pin 4</span>
+            <span class="sensor-ideal">Ideal: 21°C - 24°C</span>
+          </div>
+          <div class="sensor-progress-bar">
+            <div class="progress-fill temp-gradient" id="tempBarFill" style="width: 50%"></div>
+          </div>
+        </div>
+
+        <!-- Humidity Card -->
+        <div class="sensor-card card glass">
+          <div class="sensor-card-header">
+            <div class="sensor-icon hum-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <span class="sensor-name">Humidity</span>
+            <span class="sensor-chip" id="humStatusChip">Optimal</span>
+          </div>
+          <div class="sensor-value-group">
+            <span class="sensor-value" id="humValue">--</span>
+            <span class="sensor-unit">% RH</span>
+          </div>
+          <div class="sensor-subinfo">
+            <span>Relative Humidity</span>
+            <span class="sensor-ideal">Ideal: 40% - 60%</span>
+          </div>
+          <div class="sensor-progress-bar">
+            <div class="progress-fill hum-gradient" id="humBarFill" style="width: 50%"></div>
+          </div>
+        </div>
+
+        <!-- Ambient Light Card -->
+        <div class="sensor-card card glass">
+          <div class="sensor-card-header">
+            <div class="sensor-icon light-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </div>
+            <span class="sensor-name">Illuminance</span>
+            <span class="sensor-chip" id="lightStatusChip">Good</span>
+          </div>
+          <div class="sensor-value-group">
+            <span class="sensor-value" id="lightValue">--</span>
+            <span class="sensor-unit">Lux</span>
+          </div>
+          <div class="sensor-subinfo">
+            <span>LDR Sensor • Pin 35</span>
+            <span class="sensor-ideal">Target: 300 - 500 lx</span>
+          </div>
+          <div class="sensor-progress-bar">
+            <div class="progress-fill light-gradient" id="lightBarFill" style="width: 50%"></div>
+          </div>
+        </div>
+
+        <!-- Noise Level Card -->
+        <div class="sensor-card card glass">
+          <div class="sensor-card-header">
+            <div class="sensor-icon sound-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </div>
+            <span class="sensor-name">Noise Level</span>
+            <span class="sensor-chip" id="noiseStatusChip">Silent</span>
+          </div>
+          <div class="sensor-value-group">
+            <span class="sensor-value" id="noiseValue">--</span>
+            <span class="sensor-unit">dB</span>
+          </div>
+          <div class="sensor-subinfo">
+            <span>Sound Sensor • Pin 34</span>
+            <span class="sensor-ideal">Threshold: &lt; 45 dB</span>
+          </div>
+          <div class="sensor-progress-bar">
+            <div class="progress-fill sound-gradient" id="noiseBarFill" style="width: 40%"></div>
+          </div>
+        </div>
+
+        <!-- Occupancy & RFID Card -->
+        <div class="sensor-card card glass highlight-card">
+          <div class="sensor-card-header">
+            <div class="sensor-icon rfid-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <span class="sensor-name">Occupancy</span>
+            <span class="sensor-chip" id="occupancyStatusChip">Available</span>
+          </div>
+          <div class="sensor-value-group">
+            <span class="sensor-value" id="occupancyValue">0</span>
+            <span class="sensor-unit" id="capacityMax">/ 2 Seats</span>
+          </div>
+          <div class="rfid-slots" id="rfidSlotsContainer">
+            <div class="seat-badge active">Seat 1: Empty</div>
+            <div class="seat-badge">Seat 2: Empty</div>
+          </div>
+          <div class="sensor-subinfo">
+            <span>MFRC522 RFID Access</span>
+            <span id="capacityPercentText">0% Full</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ANALYTICS SECTION: Charts & Actionable Recommendations -->
+      <div class="analytics-layout">
+        
+        <!-- Live Environmental Chart -->
+        <section class="card glass chart-card">
+          <div class="chart-header">
+            <div>
+              <h2 class="section-title">Telemetry Dynamics</h2>
+              <p class="section-subtitle">Real-time time series history recorded from ESP32 edge node</p>
+            </div>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-chart="climate">Climate (Temp & Hum)</button>
+              <button class="chart-tab" data-chart="sensory">Sensory (Noise & Light)</button>
+            </div>
+          </div>
+          
+          <div class="canvas-container">
+            <canvas id="telemetryChart"></canvas>
+          </div>
+        </section>
+
+        <!-- Recommendations & Insights -->
+        <section class="card glass insights-card">
+          <div class="insights-header">
+            <div class="insights-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </div>
+            <div>
+              <h2 class="section-title">Smart Advisory</h2>
+              <p class="section-subtitle">AI environment optimization</p>
+            </div>
+          </div>
+
+          <div class="recommendations-list" id="recommendationsList">
+            <div class="rec-item">
+              <span class="rec-bullet">✓</span>
+              <span>Loading real-time environmental analysis...</span>
+            </div>
+          </div>
+
+          <div class="zone-comparisons">
+            <div class="comp-title">All Study Zones Status</div>
+            <div class="comp-list" id="allZonesList">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- TELEMETRY LOG / EVENT FEED -->
+      <section class="card glass log-card">
+        <div class="log-header">
+          <div class="log-title-wrap">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="log-title">Edge Node Telemetry Stream</span>
+            <span class="packet-count" id="packetCountBadge">0 packets</span>
+          </div>
+          <div class="log-actions">
+            <button class="btn btn-xs" id="clearLogBtn">Clear Log</button>
+            <span class="server-ip-badge">Endpoint: /readings</span>
+          </div>
+        </div>
+        <div class="terminal-window" id="terminalLog">
+          <div class="terminal-line info">[INIT] Dashboard connected. Polling API every 3s...</div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Interactive Simulator Modal -->
+  <div class="modal-backdrop" id="simModal">
+    <div class="modal-card card glass">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">🎮</span>
+          <div>
+            <h3 class="modal-title">Hardware Telemetry Simulator</h3>
+            <p class="modal-subtitle">Inject virtual sensor packets to test the pipeline without ESP32</p>
+          </div>
+        </div>
+        <button class="close-btn" id="closeSimBtn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="slider-group">
+          <div class="slider-header">
+            <label for="simTemp">Temperature (°C)</label>
+            <span class="slider-val" id="simTempVal">23.5 °C</span>
+          </div>
+          <input type="range" id="simTemp" min="15" max="38" step="0.5" value="23.5">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <label for="simHum">Humidity (%)</label>
+            <span class="slider-val" id="simHumVal">52 %</span>
+          </div>
+          <input type="range" id="simHum" min="20" max="95" step="1" value="52">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <label for="simLight">Light Level (Lux)</label>
+            <span class="slider-val" id="simLightVal">420 lx</span>
+          </div>
+          <input type="range" id="simLight" min="0" max="900" step="10" value="420">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <label for="simNoise">Noise Level (dB)</label>
+            <span class="slider-val" id="simNoiseVal">38 dB</span>
+          </div>
+          <input type="range" id="simNoise" min="25" max="90" step="1" value="38">
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <label for="simOcc">Occupancy</label>
+            <span class="slider-val" id="simOccVal">1 / 2</span>
+          </div>
+          <input type="range" id="simOcc" min="0" max="2" step="1" value="1">
+        </div>
+
+        <div class="sim-presets">
+          <span class="preset-label">Presets:</span>
+          <button class="preset-btn" id="presetIdeal">🌿 Optimal</button>
+          <button class="preset-btn" id="presetNoisy">📢 Noisy</button>
+          <button class="preset-btn" id="presetDark">🌙 Dim & Hot</button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="autoSimToggle">Start Auto Stream</button>
+        <button class="btn btn-primary" id="sendSimPacketBtn">Transmit Packet</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -160,51 +160,48 @@ Study Environment Score
 
 The exact scoring methodology will be finalized after sensor testing and analysis.
 
+## 📷 Live Dashboard Preview
+
+![Smart Library Dashboard Preview](images/dashboard/dashboard_preview.jpg)
+
+## 🚀 Quickstart Guide
+
+### 1. Start Backend & Dashboard Server
+```bash
+# Install dependencies
+pip install -r backend/requirements.txt
+
+# Start FastAPI server (serves API on :8000 and Web Dashboard on /)
+python -m uvicorn backend.api.main:app --host 0.0.0.0 --port 8000
+```
+- Open `http://localhost:8000/` or `http://<your-pc-ip>:8000/` in any browser.
+- Open Swagger API interactive docs at `http://localhost:8000/docs`.
+
+### 2. Flash ESP32 Firmware
+1. Open [`hardware/esp32/main_esp32/main_esp32.ino`](file:///d:/study/5th%20sem/eiot/eiot%20prj/smart-library-study-zone-analyzer/hardware/esp32/main_esp32/main_esp32.ino) in Arduino IDE.
+2. Confirm your Wi-Fi SSID and password in lines 13-14.
+3. Ensure `serverUrl` points to your PC's Wi-Fi IP address on port 8000 (e.g. `http://10.119.111.165:8000/readings`).
+4. Select board **ESP32 Dev Module** and upload.
+
+### 3. Test Without Hardware (Interactive Simulator)
+Open the dashboard at `http://localhost:8000/`, click the **Simulator** button on the top right, adjust sensor sliders (Temperature, Humidity, Light, Noise, Occupancy), and click **Transmit Packet** or toggle **Start Auto Stream**!
+
 ## 👥 Team
 
-| Member        | Responsibility        |
-| ------------- | --------------------- |
-| Vid Bhardwaj  | IoT, ESP32 & Hardware |
-| Skand Jha | Backend & Database |
-| Shubham Singh | Dashboard & Analytics |
-
-> Team responsibilities may be updated as development progresses.
+| Member | Responsibility | Status |
+| :--- | :--- | :--- |
+| **Vid Bhardwaj** | IoT, ESP32 Firmware & Hardware Sensors | Complete (v2.0 Self-Healing) |
+| **Skand Jha** | Backend API & Self-Balancing Database | Complete (FastAPI + SQLite Failover) |
+| **Shubham Singh** | Dashboard Frontend & Study Score Analytics | Complete (Interactive Glass UI + Scoring Engine) |
 
 ## 📈 Project Status
 
-🚧 **Currently in development**
+✅ **Functional Working Release (v2.0 Complete)**
+- Real-time ESP32 edge telemetry ingestion
+- Multi-factor Study Environment Score algorithm
+- Dual-mode resilient database architecture
+- Live glassmorphism web dashboard with Canvas trend charts & hardware simulator
 
-## 🔬 Development Approach
-
-The project will be developed incrementally.
-
-Each major component will be developed and tested independently before integration.
-
-```text
-Requirement Analysis
-        ↓
-Hardware Development
-        ↓
-Sensor Testing
-        ↓
-Data Communication
-        ↓
-Backend Development
-        ↓
-Database Integration
-        ↓
-Analytics
-        ↓
-Dashboard
-        ↓
-System Integration
-        ↓
-Testing & Evaluation
-```
-
-## 📷 Project Documentation
-
-Project development images, circuit diagrams, prototype photographs, and dashboard screenshots will be added to the repository as development progresses.
 
 ## 🔮 Future Scope
 
